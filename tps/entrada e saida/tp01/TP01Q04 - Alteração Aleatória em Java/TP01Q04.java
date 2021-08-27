@@ -14,6 +14,12 @@ public class TP01Q04 {
     }
   }
 
+  /**
+   * Codifica a string
+   * @param str -> string pra ser modificada
+   * @param gerador -> objeto para gerar um char aleatorio com seed 4
+   * @return -> string alterada
+   */
   public static String random(String str, Random gerador) {
     String nova = "";
     char pri = gerarChar(gerador), seg = gerarChar(gerador);
@@ -28,11 +34,21 @@ public class TP01Q04 {
     return nova;
   }
 
+  /**
+   * Gera um char aleatorio
+   * @param gerador -> objeto para gerar um char aleatorio com seed 4
+   * @return -> char aleatorio
+   */
   public static char gerarChar(Random gerador) {
     char c = (char) ('a' + (Math.abs(gerador.nextInt()) % 26));
     return c;
   }
 
+  /**
+     * Testa se a string eh "FIM"
+     * @param s -> linha a ser testada
+     * @return -> boolean para a comparacao com "FIM"
+     */
   public static boolean isFim(String s) {
     return (
       s.length() == 3 &&

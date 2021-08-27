@@ -1,4 +1,4 @@
-public class TP01Q05 {
+public class TP01Q14 {
 
     public static void main(String[] args) {
       String linha = MyIO.readLine();
@@ -28,7 +28,13 @@ public class TP01Q05 {
         linha = MyIO.readLine();
       }
     }
-  
+    
+    /**
+     * Processa as string de expressoes booleanas recursivamente
+     * @param str string com a expressao
+     * @param var vetor com os valores binarios setados
+     * @return 0 ou 1
+     */
     public static int processar(String str, int var[]) {
       int i = 0, j = 0, y = 0, open = 0, teste = 0, f = 0;
       String item[] = new String[100];
@@ -109,8 +115,8 @@ public class TP01Q05 {
     //3 0 0 0 or(or(and(not(and(A , B)) , not(C)) , and(not(A) , B , C) , and(A , B , C) , and(A , not(B) , not(C))) , and(A , not(B) , C))
   
     public static int and(int a[], int n) {
-      for (int i = 0; i < n - 1; i++) {
-        if (a[i] == 0 || a[i + 1] == 0) {
+      for (int i = 0; i < n; i++) {
+        if (a[i] == 0) {
           return 0;
         }
       }

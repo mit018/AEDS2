@@ -4,13 +4,19 @@
 
 // verifica se uma palavra eh um palindromo
 
+void palindromo(char palavra[]);
+int isFim(char palavra[]);
+int main();
+
+
 void palindromo(char palavra[])
 {
     char copia[1000];
-    strcpy(copia, palavra);
-    int x = strlen(palavra) - 2;
+    strcpy(copia, palavra); // copia a palavra em outra variavel (string)
+    int x = strlen(palavra) - 1;
 
-    for(int i = 0; i < strlen(palavra) - 1; i++){
+    for (int i = 0; i < strlen(palavra); i++)
+    {
         copia[i] = palavra[x--];
     }
 
@@ -24,23 +30,33 @@ void palindromo(char palavra[])
     }
 } // fim int palindromo
 
+int isFim(char palavra[])
+{
+    if (strcmp(palavra, "FIM") == 0)
+    {
+        return 1;
+    }
+    return 0;
+}// testa se a palavra eh "FIM"
+
 int main()
 {
-    int teste = 1, i = 0;
-    char* palavra;
-    palavra = (char*) malloc(1000 * sizeof(char));
+    int i = 0;
+    char str[800][1000];
 
-    while (teste == 1)
+    scanf(" %[^\n]", str[i]);
+    //str[i][strlen(str[i]) - 1] = '\0'; -> se der Segmentation fault
+
+    while (!(isFim(str[i])))
     {
-        fgets(palavra, 1000, stdin);
+        i++;
+        scanf(" %[^\n]", str[i]);
+        //str[i][strlen(str[i]) - 1] = '\0'; -> se der Segmentation fault
+    }
 
-        if (strcmp(palavra, "FIM") == 0)
-        {
-            teste = 0;
-        }else{
-            printf("%s\n", palavra);
-            //palindromo(palavra);
-        }
+    for (int j = 0; j < i; j++)
+    {
+        palindromo(str[j]);
     }
 
     return 0;
