@@ -45,13 +45,13 @@ int main()
     char str[800][1000];
 
     scanf(" %[^\n]", str[i]);
-    //str[i][strlen(str[i]) - 1] = '\0'; -> se der Segmentation fault
+    //str[i][strlen(str[i]) - 1] = '\0';// -> se der Segmentation fault
 
     while (!(isFim(str[i])))
     {
         i++;
         scanf(" %[^\n]", str[i]);
-        //str[i][strlen(str[i]) - 1] = '\0'; -> se der Segmentation fault
+        //str[i][strlen(str[i]) - 1] = '\0'; //-> se der Segmentation fault
     }
 
     for (int j = 0; j < i; j++)

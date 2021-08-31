@@ -1,148 +1,152 @@
 public class TP01Q05 {
-  public static boolean isFim(String s) {
-      return (s.length() == 1 && s.charAt(0) == '0');
-  }
 
-  public static boolean BooleanValue(int valor) {
-      if (valor == 0) {
-          return false;
-      } else {
-          return true;
-      }
-  }
-
-  public static String ExpressionSolver(String expression) {
-      boolean result = false;
-      // If length == 6 is a NOT with 1 variable
-      if (expression.length() == 6) {
-          if (expression.charAt(4) == '0') {
-              result = true;
-          } else {
-              result = false;
+    public static void main(String[] args) {
+      String linha = MyIO.readLine();
+      String exp = "";
+      int i = 0, j = 0, cont = 0, x[] = new int[100];
+  
+      while (!(isFim(linha))) {
+        exp = "";
+        cont = 0;
+        i = 0;
+        int n = linha.charAt(i) - 48;
+        for (i = 1; (cont <= n) && (i < linha.length()); i++) {
+          if (linha.charAt(i) != ' ') {
+            x[cont] = linha.charAt(i) - 48;
+            cont++;
           }
-      // If length == 8 or 10 is a AND
-      } else if (expression.length() == 8 || expression.length() == 10) {
-          if (expression.length() == 8) {
-              result = BooleanValue(Character.getNumericValue(expression.charAt(4))) && BooleanValue(Character.getNumericValue(expression.charAt(6)));
-          } else {
-              result = BooleanValue(Character.getNumericValue(expression.charAt(4))) && BooleanValue(Character.getNumericValue(expression.charAt(6))) && BooleanValue(Character.getNumericValue(expression.charAt(8)));
+        }
+  
+        for (j = i - 1; j < linha.length(); j++) {
+          if (linha.charAt(j) != ' ') { // tira todos os espaços
+            exp += linha.charAt(j);
           }
-      // If length == 7 or 9 or 11 is a OR
-      } else if (expression.length() == 7 || expression.length() == 9 || expression.length() == 11) {
-          if (expression.length() == 7) {
-              result = BooleanValue(Character.getNumericValue(expression.charAt(3))) || BooleanValue(Character.getNumericValue(expression.charAt(5)));
-          } else if (expression.length() == 9) {
-              result = BooleanValue(Character.getNumericValue(expression.charAt(3))) || BooleanValue(Character.getNumericValue(expression.charAt(5))) || BooleanValue(Character.getNumericValue(expression.charAt(7)));
-          } else {
-              result = BooleanValue(Character.getNumericValue(expression.charAt(3))) || BooleanValue(Character.getNumericValue(expression.charAt(5))) || BooleanValue(Character.getNumericValue(expression.charAt(7))) || BooleanValue(Character.getNumericValue(expression.charAt(9)));
+        }
+  
+        MyIO.println(processar(exp, x));
+  
+        linha = MyIO.readLine();
+      }
+    }
+    
+    /**
+     * Processa as string de expressoes booleanas recursivamente
+     * @param str string com a expressao
+     * @param var vetor com os valores binarios setados
+     * @return 0 ou 1
+     */
+    public static int processar(String str, int var[]) {
+      int i = 0, j = 0, y = 0, open = 0, teste = 0, f = 0;
+      String item[] = new String[100];
+      int itemProc[] = new int[100];
+  
+      for (int k = 0; k < 100; k++) {
+        item[k] = "";
+      }
+      char vir = ',';
+  
+      for (i = 0; i < str.length(); i++) {
+        if (str.charAt(i) >= 65 && str.charAt(i) <= 90) {
+          return var[str.charAt(i) - 65];
+        } else {
+          teste = testeBool(str, i);
+          if(teste == 1 || teste == 3){
+            f = 4;
+          }else if(teste == 2){
+            f = 3;
           }
-      }
-
-      if (result == true) {
-          return "1";
-      } else {
-          return "0";
-      }
-  }
-
-  public static String CalcularExpressao(String expressao, int quantidade) {
-      int[] array = new int[quantidade];
-      int j = 2;
-      boolean bool = false;
-      String expression = "";
-
-      for (int i = 0; i < quantidade; i = i + 1) {
-          array[i] = ((int) expressao.charAt(j)) - 48;
-          j = j + 2;
-      }
-
-      for (int i = 0; i < expressao.length(); i++) {
-          if (expressao.charAt(i) == ' ') {
-              expression = expression + "";
-          } else if (expressao.charAt(i) == 'A') {
-              expression = expression + array[0];
-          } else if (expressao.charAt(i) == 'B') {
-              expression = expression + array[1];
-          } else if (expressao.charAt(i) == 'C') {
-              expression = expression + array[2];
-          } else if (!(expressao.charAt(i) >= 48 && expressao.charAt(i) <= 57)) {
-              expression = expression + expressao.charAt(i);
-          }
-      }
-      
-      while (expression.length() > 1) {
-          // Do all NOT
-          for (int i = 0; i < expression.length(); i++) {
-              if (expression.charAt(i) == 'n' && expression.charAt(i + 1) == 'o' && expression.charAt(i + 2) == 't' && expression.charAt(i + 5) == ')') {
-                  expression = expression.substring(0, i) + ExpressionSolver(expression.substring(i, i + 6)) + expression.substring(i + 6);
+          if (teste != 0) {
+            for (j = i + f; j < str.length() - 1; j++) {
+              if (str.charAt(j) == '(') {
+                open++;
+              } else if (str.charAt(j) == ')') {
+                open--;
               }
-          }
-
-          // Do all AND
-          for (int i = 0; i < expression.length(); i++) {
-              int count = 0;
-              int anotherParenthesis = 0;
-              if (expression.charAt(i) == 'a' && expression.charAt(i + 1) == 'n' && expression.charAt(i + 2) == 'd') {
-                  for (int end = i + 4; anotherParenthesis == 0; end++) {
-                      count++;
-
-                      if (expression.charAt(end) == '(') {
-                          anotherParenthesis = -1;
-                      } else if (expression.charAt(end) == ')') {
-                          anotherParenthesis++;
-                      }
-                  }
-
-                  if (anotherParenthesis != -1) {
-                      expression = expression.substring(0, i) + ExpressionSolver(expression.substring(i, i + count + 4)) + expression.substring(i + count + 4);
-                  }
+              if (open != 0) {
+                vir = ' ';
               }
-          }
-
-          // Do all OR
-          for (int i = 0; i < expression.length(); i++) {
-              int count = 0;
-              int anotherParenthesis = 0;
-              if (expression.charAt(i) == 'o' && expression.charAt(i + 1) == 'r') {
-                  for (int end = i + 3; anotherParenthesis == 0; end++) {
-                      count++;
-
-                      if (expression.charAt(end) == '(') {
-                          anotherParenthesis = -1;
-                      } else if (expression.charAt(end) == ')') {
-                          anotherParenthesis++;
-                      }
-                  }
-
-                  if (anotherParenthesis != -1) {
-                      expression = expression.substring(0, i) + ExpressionSolver(expression.substring(i, i + count + 3)) + expression.substring(i + count + 3);
-                  }
+              else if(open == 0){
+                vir = ',';
               }
+              if (str.charAt(j) != vir) {
+                item[y] += str.charAt(j);
+              } else {
+                y++;
+              }
+            } // fim for
+  
+            for (int k = 0; k < y + 1; k++) {
+              itemProc[k] = processar(item[k], var);
+            }
+            if (teste == 1) {
+              return and(itemProc, y + 1);
+            } else if (teste == 2) {
+              return or(itemProc, y + 1);
+            } else {
+              return not(itemProc[0]);
+            }
           }
+        }
       }
-
-      return expression;
-  }
-
-  public static void main(String[] args) {
-      // Declarando Variáveis e charset
-      MyIO.setCharset("ISO-8859-1");
-      String[] entrada = new String[1000];
-      int numEntrada = 0;
-      int quantidade = 0;
-      String resp = "";
-
-      // Leitura da entrada padrao
-      do {
-          entrada[numEntrada] = MyIO.readLine();
-      } while (isFim(entrada[numEntrada++]) == false);
-      numEntrada--; // Desconsiderar ultima linha contendo a palavra FIM
-
-      for (int i = 0; i < numEntrada; i = i + 1) {
-          // Vai chamar a função, retornar a string modificada ou nao e depois printar
-          quantidade = ((int) entrada[i].charAt(0)) - 48;
-          resp = CalcularExpressao(entrada[i], quantidade);
-          MyIO.println(resp);
+  
+      return -1;
+    }
+  
+    public static int testeBool(String str, int i) {
+      if (
+        str.charAt(i) == 'a' &&
+        str.charAt(i + 1) == 'n' &&
+        str.charAt(i + 2) == 'd'
+      ) {
+        return 1;
+      } else if (str.charAt(i) == 'o' && str.charAt(i + 1) == 'r') {
+        return 2;
+      } else if (
+        str.charAt(i) == 'n' &&
+        str.charAt(i + 1) == 'o' &&
+        str.charAt(i + 2) == 't'
+      ) {
+        return 3;
       }
+  
+      return 0;
+    }
+  
+    //3 0 0 0 or(or(and(not(and(A , B)) , not(C)) , and(not(A) , B , C) , and(A , B , C) , and(A , not(B) , not(C))) , and(A , not(B) , C))
+  
+    public static int and(int a[], int n) {
+      for (int i = 0; i < n; i++) {
+        if (a[i] == 0) {
+          return 0;
+        }
+      }
+  
+      return 1;
+    }
+  
+    public static int or(int a[], int n) {
+      for (int i = 0; i < n; i++) {
+        if (a[i] == 1) {
+          return 1;
+        }
+      }
+  
+      return 0;
+    }
+  
+    public static int not(int a) {
+      if (a == 0) {
+        return 1;
+      }
+      return 0;
+    }
+  
+    public static boolean isFim(String s) {
+      return (
+        s.length() == 1 &&
+        s.charAt(0) == '0'
+      );
+    }
   }
-}
+  //    3 1 1 1 and(A , or(B , C))
+  
