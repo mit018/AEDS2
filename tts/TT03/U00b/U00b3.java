@@ -1,3 +1,4 @@
+package tts.TT02.TT03.U00b;
 public class U00b3 {
     public static void main(String[] args) {
         int[] v = { 28, 2, 19, 402, 90, 15, 37, 928, 10, 3 };

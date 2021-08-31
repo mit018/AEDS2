@@ -1,4 +1,4 @@
-package TT03.U00f;
+package tts.TT02.TT03.U00f;
 
 class ExemploArq01Escrita {
     public static void main(String[] args) {

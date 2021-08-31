@@ -1,4 +1,4 @@
-package TT03.U00g;
+package tts.TT02.TT03.U00g;
 
 class ExemploScanner{
     public static void main(String[] args) {
