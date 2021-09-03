@@ -1,0 +1,12 @@
+(1) g++ matriz.cpp -o exec
+
+(2) ./exec < pub.in > aluno.out
+
+(3) diff -wB aluno.out pub.out (*verde usa um diff turbi)
+
+
+(4) ./exec < pri.in > aluno2.out
+
+(3) diff -wB aluno2.out pri.out
+
+

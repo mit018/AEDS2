@@ -1,4 +1,3 @@
-package tts.TT02;
 class palindromo {
     public static void main(String[] args) {
         String[] entrada = new String[1000];
@@ -11,7 +10,7 @@ class palindromo {
         numEntrada--; //Desconsiderar ultima linha contendo a palavra FIM
     
         for (int i = 0; i < numEntrada; i++) {
-            if(palindromo(entrada[i], entrada[i].length() - 1, 0)){
+            if(Palindromo(entrada[i], entrada[i].length() - 1, 0)){
                 MyIO.println("SIM");
             }else{
                 MyIO.println("NAO");
@@ -26,12 +25,12 @@ class palindromo {
        * @param i posicao inicial
        * @return true ou false
        */
-      public static boolean palindromo(String str, int f, int i) {
+      public static boolean Palindromo(String str, int f, int i) {
         
         if(f == (str.length()/2) - 1){ // se chegar na posicao (metade + 1), deve parar
             return true;
         }else if(str.charAt(f) == str.charAt(i)){
-            return palindromo(str, f - 1, i + 1);
+            return Palindromo(str, f - 1, i + 1);
         }
     
         return false;

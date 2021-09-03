@@ -20,14 +20,7 @@ class MyIO {
          out.print(x);
       }catch(UnsupportedEncodingException e){ System.out.println("Erro: charset invalido"); }
    }
-   
-   public static void print(float x){
-      try {
-         PrintStream out = new PrintStream(System.out, true, charset);
-         out.print(x);
-      }catch(UnsupportedEncodingException e){ System.out.println("Erro: charset invalido"); }
-   }
-   
+
    public static void print(double x){
       try {
          PrintStream out = new PrintStream(System.out, true, charset);
@@ -66,13 +59,6 @@ class MyIO {
       }catch(UnsupportedEncodingException e){ System.out.println("Erro: charset invalido"); }
    }
 
-   public static void println(float x){
-      try {
-         PrintStream out = new PrintStream(System.out, true, charset);
-         out.println(x);
-      }catch(UnsupportedEncodingException e){ System.out.println("Erro: charset invalido"); }
-   }
-   
    public static void println(double x){
       try {
          PrintStream out = new PrintStream(System.out, true, charset);
