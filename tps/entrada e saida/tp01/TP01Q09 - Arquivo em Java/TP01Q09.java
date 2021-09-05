@@ -20,12 +20,12 @@ class TP01Q09 {
       int k;
 
       for (int i = n - 1; i >= 0; i--) {
-        k = i*8;
+        k = i*8; // 8 = tamanho de um double
         arq.seek(k);
         num = arq.readDouble();
         num2 = (int)num;
 
-        if(num == (long)num){
+        if(num == num2){ // se o numero for igual a versao int dele mesmo, ex: 1.0 == 1; a versao inteiro eh printada (1 e nao 1.0)
           MyIO.println(num2);
         }else{
           MyIO.println(num);
