@@ -5,38 +5,30 @@ class TP01Q09 {
   public static void main(String[] args) {
     try {
       int n = MyIO.readInt();
-      float num = 0;
-      Arq.openWrite("exemplo.txt");
+      double num = 0;
+      int num2 = 0;
+      RandomAccessFile arq = new RandomAccessFile("exemplo.txt", "rw");
 
       for (int i = 0; i < n; i++) {
-        num = MyIO.readFloat();
-        Arq.println(num);
+        num = MyIO.readDouble();
+        arq.writeDouble(num);
       }
 
-      Arq.close();
+      arq.close();
 
-      RandomAccessFile arq = new RandomAccessFile("exemplo.txt", "r");
+      arq = new RandomAccessFile("exemplo.txt", "r");
+      int k;
 
-      int linha = 0, fim = (int) (arq.length() - 1);
+      for (int i = n - 1; i >= 0; i--) {
+        k = i*8;
+        arq.seek(k);
+        num = arq.readDouble();
+        num2 = (int)num;
 
-      for (int i = fim; i >= 0; i--) {
-        arq.seek(i);
-        char digito = (char) arq.readByte();
-
-        if (digito == '\n' || i == 0) {
-          linha = i;
-          for (int j = linha; j <= fim; j++) {
-            arq.seek(j);
-            if ((char) arq.readByte() != '\n') {
-              arq.seek(j);
-
-              MyIO.print((char) arq.readByte());
-            }
-            
-          }
-          MyIO.println("");
-          fim = linha;
-          i = fim;
+        if(num == (long)num){
+          MyIO.println(num2);
+        }else{
+          MyIO.println(num);
         }
       }
 
