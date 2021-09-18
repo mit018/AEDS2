@@ -100,7 +100,6 @@ class Series {
     }
 
     Arq.close();
-    this.imprimir();
   }
 
   public Series() {
@@ -248,7 +247,105 @@ class Series {
   }
 }
 
-public class TP02Q01 {
+class Lista {
+
+  private Series[] series;
+  private int n;
+
+  public Lista(int tamanho) {
+    series = new Series[tamanho];
+    n = 0;
+  }
+
+  public Lista() {
+    this(100);
+    n = 0;
+  }
+
+  public int getTamanho() {
+    return series.length;
+  }
+
+  void inserirFim(Series s) throws Exception {
+    if (n >= series.length) {
+      throw new Exception("ERRO");
+    }
+
+    series[n] = s.clone();
+    n++;
+  }
+
+  void inserirInicio(Series s) throws Exception {
+    if (n >= series.length) {
+      throw new Exception("ERRO");
+    }
+
+    for (int i = n; i > 0; i--) {
+      series[i] = series[i - 1];
+    }
+
+    series[0] = s.clone();
+    n++;
+  }
+
+  void inserir(Series s, int pos) throws Exception {
+    if (n >= series.length || pos < 0 || pos > n) {
+      throw new Exception("ERRO");
+    }
+
+    for (int i = n; i > pos; i--) {
+      series[i] = series[i - 1];
+    }
+
+    series[pos] = s.clone();
+    n++;
+  }
+
+  Series remover(int pos) throws Exception {
+    if (n == 0 || pos < 0 || pos > n) {
+      throw new Exception("ERRO");
+    }
+
+    Series serie = series[pos];
+    n--;
+
+    for (int i = pos; i < n; i++) {
+      series[i] = series[i + 1];
+    }
+
+    return serie;
+  }
+
+  Series removerInicio() throws Exception {
+    if (n == 0) {
+      throw new Exception("ERRO");
+    }
+
+    Series primeira = series[0];
+    n--;
+    for (int i = 0; i < n; i++) {
+      series[i] = series[i + 1];
+    }
+
+    return primeira;
+  }
+
+  Series removerFim() throws Exception {
+    if (n == 0) {
+      throw new Exception("ERRO");
+    }
+
+    return series[--n];
+  }
+
+  void Imprimir() {
+    for (int i = 0; i < n; i++) {
+      series[i].imprimir();
+    }
+  }
+}
+
+public class TP02Q05 {
 
   /**
    * compara a string com "FIM"
@@ -264,15 +361,90 @@ public class TP02Q01 {
     );
   }
 
+  public static void processa(String linha, Lista lista) {
+    String[] split = new String[2];
+    split = linha.split(" ");
+    Series serie = new Series();
+
+    switch (linha.charAt(0)) {
+      case 'I':
+        switch (linha.charAt(1)) {
+          case 'I':
+            serie.ler(split[1]);
+            try {
+              lista.inserirInicio(serie);
+            } catch (Exception e) {}
+
+            break;
+          case 'F':
+            serie.ler(split[1]);
+            try {
+              lista.inserirFim(serie);
+            } catch (Exception e) {}
+            break;
+          case '*':
+            serie.ler(split[2]);
+            try {
+              lista.inserir(serie, Integer.parseInt(split[1]));
+            } catch (Exception e) {}
+            break;
+          default:
+            break;
+        }
+        break;
+      case 'R':
+        switch (linha.charAt(1)) {
+          case 'I':
+            try {
+              serie = lista.removerInicio();
+            } catch (Exception e) {}
+
+            break;
+          case 'F':
+            try {
+              serie = lista.removerFim();
+            } catch (Exception e) {}
+            break;
+          case '*':
+            try {
+              serie = lista.remover(Integer.parseInt(split[1]));
+            } catch (Exception e) {}
+            break;
+          default:
+            break;
+        }
+        MyIO.println("(R) " + serie.getNome());
+        break;
+      default:
+        break;
+    }
+  }
+
   public static void main(String[] args) {
     MyIO.setCharset("UTF-8");
-    String arq = MyIO.readLine();
+
+    String arq = MyIO.readLine(), linha = "";
+
+    Lista listaSeries = new Lista();
 
     while (!isFim(arq)) {
       Series serie = new Series();
       serie.ler(arq);
-
+      try {
+        listaSeries.inserirFim(serie);
+      } catch (Exception e) {
+        //
+      }
       arq = MyIO.readLine();
     }
+
+    int i = MyIO.readInt();
+
+    for (int j = 0; j < i; j++) {
+      linha = MyIO.readLine();
+      processa(linha, listaSeries);
+    }
+
+    listaSeries.Imprimir();
   }
 }
