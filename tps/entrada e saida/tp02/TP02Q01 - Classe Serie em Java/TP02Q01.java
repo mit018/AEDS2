@@ -10,6 +10,9 @@ class Series {
   private int temporadas;
   private int episodios;
 
+/**
+  * imprime os atributos do objeto serie
+*/
   public void imprimir() {
     MyIO.println(
       this.nome +
@@ -32,6 +35,11 @@ class Series {
     );
   }
 
+  /**
+  * seta o atributo do objeto serie de acordo com o padrao encontrado
+  * @param padrao -> numero do padrao encontrado
+  * @param padrao -> conteudo a ser atribuido
+*/
   public void setSerie(int padrao, String conteudo) {
     switch (padrao) {
       case 0:
@@ -66,6 +74,10 @@ class Series {
     }
   }
 
+ /**
+  * le um arquivo de texto, extrai as informacoes necessarias e preenche os atributos do objeto serie
+  * @param arq -> nome do arquivo a ser lido
+*/
   public void ler(String arq) {
     String linha = "", conteudo = "";
     int pad = 0;
@@ -103,6 +115,9 @@ class Series {
     this.imprimir();
   }
 
+ /**
+  * Funcao construtora que zera todos os atributos
+*/
   public Series() {
     this.setNome("0");
     this.setFormato("0");
@@ -115,6 +130,18 @@ class Series {
     this.setEpisodios("0");
   }
 
+  /**
+  * Funcao construtora que recebe todos os valores e atribui eles a cada atributo do objeto
+  * @param nome -> nome da serie
+  * @param formato -> formato da serie
+  * @param duracao -> duracao da serie
+  * @param pais -> pais de origem da serie
+  * @param idioma -> idioma original da serie
+  * @param emissora -> emissora original da serie
+  * @param transmissao -> data de transmissao da serie
+  * @param temporadas -> numero de temporadas da serie
+  * @param episodios -> numero de episodios da serie
+*/
   public Series(
     String nome,
     String formato,
@@ -137,6 +164,9 @@ class Series {
     this.episodios = episodios;
   }
 
+/**
+  * cria um novo objeto com os mesmos atributos
+*/
   public Series clone() {
     Series clone = new Series(
       this.nome,
@@ -153,6 +183,10 @@ class Series {
     return clone;
   }
 
+/**
+  * cria uma lista de padroes a serem procurados
+  @return padroes -> vetor de strings com os padroes
+*/
   public static String[] setPadroes() {
     String[] padroes = new String[9];
 
@@ -168,7 +202,8 @@ class Series {
 
     return padroes;
   }
-
+  
+/* Getters e Setters da classe */
   public void setNome(String nome) {
     this.nome = nome;
   }
@@ -247,6 +282,8 @@ class Series {
     return this.episodios;
   }
 }
+/* FIM Getters e Setters da classe */
+
 
 public class TP02Q01 {
 
