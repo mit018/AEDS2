@@ -1,0 +1,29 @@
+	public void teste() {
+		CCelulaDup i = primeira.prox;
+		CCelulaDup j = ultima;
+		CCelulaDup k;
+		while (j.prox != i) {
+			Object tmp = i.item;
+			i.item = j.item;
+			j.item = tmp;
+			i = i.prox;
+			for (k = primeira; k.prox != j; k = k.prox)
+				;
+			j = k;
+		}
+	}
+
+	public void teste2() {
+		CCelulaDup i = primeira.prox;
+		CCelulaDup j = ultima;
+		CCelulaDup k;
+		while (i != j && j.prox != i) {
+			Object tmp = i.item;
+			i.item = j.item;
+			j.item = tmp;
+			i = i.prox;
+			for (k = primeira; k.prox != j; k = k.prox)
+				;
+			j = k;
+		}
+	}

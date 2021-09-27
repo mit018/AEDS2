@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"<Unnamed>","l":"CCelula"},{"p":"<Unnamed>","l":"CFila"},{"p":"<Unnamed>","l":"CPilha"},{"p":"<Unnamed>","l":"Fila"},{"p":"<Unnamed>","l":"FilaCircular"},{"p":"<Unnamed>","l":"FilaPrincipal"},{"p":"<Unnamed>","l":"PilhaPrincipal"},{"p":"<Unnamed>","l":"PrincipalLista"}]
