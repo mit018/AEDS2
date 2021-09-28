@@ -28,9 +28,9 @@ SIM
 NÃO
 SIM
 NÃO
+SIM
 NÃO
-NÃO
-NÃO
+SIM
 NÃO
 NÃO
 SIM
