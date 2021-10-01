@@ -10,6 +10,7 @@ class Series {
   private int temporadas;
   private int episodios;
 
+    /**Imprime os atributos do objeto serie */
   public void imprimir() {
     MyIO.println(
       this.nome +
@@ -32,6 +33,11 @@ class Series {
     );
   }
 
+  /**
+   * Atribui o conteudo a um atributo da serie de acordo com o padrao encontradp
+   * @param padrao padrao encontrado
+   * @param conteudo conteudo do atributo a ser inserido
+   */
   public void setSerie(int padrao, String conteudo) {
     switch (padrao) {
       case 0:
@@ -65,7 +71,11 @@ class Series {
         break;
     }
   }
-
+  
+  /**
+   * Le um arquivo html e preenche os atributos do objeto serie
+   * @param arq nome do arquivo
+   */
   public void ler(String arq) {
     String linha = "", conteudo = "";
     int pad = 0;
@@ -102,6 +112,7 @@ class Series {
     Arq.close();
   }
 
+    /**Inicializa o objeto */
   public Series() {
     this.setNome("0");
     this.setFormato("0");
@@ -113,7 +124,8 @@ class Series {
     this.setTemporadas("0");
     this.setEpisodios("0");
   }
-
+  
+  /**Inicializa o objeto com parametros para cada atributo*/
   public Series(
     String nome,
     String formato,
@@ -135,7 +147,8 @@ class Series {
     this.temporadas = temporadas;
     this.episodios = episodios;
   }
-
+  
+  /**Cria retorna um clone do objeto serie */
   public Series clone() {
     Series clone = new Series(
       this.nome,
@@ -152,6 +165,10 @@ class Series {
     return clone;
   }
 
+  /**
+   * Cria um vetor de strings com padroes a serem pesquisados no arquivo html
+   * @return vetor de strings
+   */
   public static String[] setPadroes() {
     String[] padroes = new String[9];
 
@@ -168,6 +185,7 @@ class Series {
     return padroes;
   }
 
+  /**INICIO SETTERS E GETTERS SERIE*/
   public void setNome(String nome) {
     this.nome = nome;
   }
@@ -245,6 +263,7 @@ class Series {
   public int getEpisodios() {
     return this.episodios;
   }
+  /**FIM SETTERS E GETTERS SERIE*/
 }
 
 class Lista {
@@ -252,20 +271,30 @@ class Lista {
   private Series[] series;
   private int n;
 
+  /**
+   * Inicializa a lista com um tamanho especifico
+   * @param tamanho tamanho do vetor de series
+   */
   public Lista(int tamanho) {
     series = new Series[tamanho];
     n = 0;
   }
 
+  /**Inicializa a lista com tamanho 100 */
   public Lista() {
     this(100);
     n = 0;
   }
 
+  /**
+   * Retorna o tamanho total da lista
+   * @return
+   */
   public int getTamanho() {
     return series.length;
   }
-
+  
+  /**INICIO METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
   void inserirFim(Series s) throws Exception {
     if (n >= series.length) {
       throw new Exception("ERRO");
@@ -337,7 +366,9 @@ class Lista {
 
     return series[--n];
   }
+  /**FIM METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
 
+  /**Imprime a lista */
   void Imprimir() {
     for (int i = 0; i < n; i++) {
       series[i].imprimir();

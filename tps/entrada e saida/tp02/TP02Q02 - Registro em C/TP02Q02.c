@@ -27,6 +27,7 @@ struct Series
 
 void imprimir()
 {
+    
     printf("%s %s %s %s %s %s %s %i %i\n", s.nome, s.formato, s.duracao, s.pais, s.idioma, s.emissora, s.transmissao, s.temporadas, s.episodios);
 }
 

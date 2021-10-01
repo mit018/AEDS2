@@ -18,6 +18,7 @@ class Series {
   private int temporadas;
   private int episodios;
 
+  /**Imprime os atributos do objeto serie */
   public void imprimir() {
     MyIO.println(
       this.nome +
@@ -40,6 +41,11 @@ class Series {
     );
   }
 
+  /**
+   * Atribui o conteudo a um atributo da serie de acordo com o padrao encontradp
+   * @param padrao padrao encontrado
+   * @param conteudo conteudo do atributo a ser inserido
+   */
   public void setSerie(int padrao, String conteudo) {
     switch (padrao) {
       case 0:
@@ -74,6 +80,10 @@ class Series {
     }
   }
 
+  /**
+   * Le um arquivo html e preenche os atributos do objeto serie
+   * @param arq nome do arquivo
+   */
   public void ler(String arq) {
     String linha = "", conteudo = "";
     int pad = 0;
@@ -113,6 +123,7 @@ class Series {
     Arq.close();
   }
 
+  /**Inicializa o objeto */
   public Series() {
     this.setNome("0");
     this.setFormato("0");
@@ -125,6 +136,7 @@ class Series {
     this.setEpisodios("0");
   }
 
+  /**Inicializa o objeto com parametros para cada atributo*/
   public Series(
     String nome,
     String formato,
@@ -147,6 +159,7 @@ class Series {
     this.episodios = episodios;
   }
 
+  /**Cria retorna um clone do objeto serie */
   public Series clone() {
     Series clone = new Series(
       this.nome,
@@ -163,6 +176,10 @@ class Series {
     return clone;
   }
 
+  /**
+   * Cria um vetor de strings com padroes a serem pesquisados no arquivo html
+   * @return vetor de strings
+   */
   public static String[] setPadroes() {
     String[] padroes = new String[9];
 
@@ -179,6 +196,7 @@ class Series {
     return padroes;
   }
 
+  /**INICIO SETTERS E GETTERS SERIE*/
   public void setNome(String nome) {
     this.nome = nome;
   }
@@ -258,6 +276,7 @@ class Series {
   public int getEpisodios() {
     return this.episodios;
   }
+  /**FIM SETTERS E GETTERS SERIE*/
 }
 
 class Lista {
@@ -265,20 +284,30 @@ class Lista {
   private Series[] series;
   private int n;
 
+  /**
+   * Inicializa a lista com um tamanho especifico
+   * @param tamanho tamanho do vetor de series
+   */
   public Lista(int tamanho) {
     series = new Series[tamanho];
     n = 0;
   }
 
+  /**Inicializa a lista com tamanho 100 */
   public Lista() {
     series = new Series[100];
     n = 0;
   }
 
+  /**
+   * Retorna o tamanho total da lista
+   * @return
+   */
   public int getTamanho() {
     return series.length;
   }
 
+  /**INICIO METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
   void inserirFim(Series s) throws Exception {
     if (n >= series.length) {
       throw new Exception("ERRO");
@@ -293,11 +322,13 @@ class Lista {
       throw new Exception("ERRO");
     }
     Comparacoes.cont++;
+
     for (int i = n; i > 0; i--) {
       Comparacoes.cont++;
       series[i] = series[i - 1];
     }
     Comparacoes.cont++;
+
     series[0] = s.clone();
     n++;
   }
@@ -357,6 +388,9 @@ class Lista {
     return series[--n];
   }
 
+  /**FIM METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
+
+  /**Imprime a lista */
   void Imprimir() {
     for (int i = 0; i < n; i++) {
       Comparacoes.cont++;
@@ -365,6 +399,11 @@ class Lista {
     Comparacoes.cont++;
   }
 
+  /**
+   * Pesquisa binaria de um nome de serie em toda a lista
+   * @param linha nome da serie pesquisada
+   * @return resposta (sim ou nao) para a pesquisa
+   */
   String pesquisa(String linha) {
     String resp = "NÃO";
 
@@ -372,7 +411,9 @@ class Lista {
 
     while (esq <= dir) {
       Comparacoes.cont++;
+
       meio = (esq + dir) / 2;
+
       if (linha.equals(series[meio].getNome())) {
         Comparacoes.cont++;
         resp = "SIM";
@@ -456,7 +497,9 @@ public class TP02Q04 {
     Comparacoes.cont++;
     Arq.openWrite("matricula_binaria.txt");
     tempo = ((new Date().getTime()) - tempo) / 1000;
-    Arq.println("734661" + String.format("\t%.4f", tempo) + "\t" + Comparacoes.cont);
+    Arq.println(
+      "734661" + String.format("\t%.4f", tempo) + "\t" + Comparacoes.cont
+    );
     Arq.close();
   }
 }
