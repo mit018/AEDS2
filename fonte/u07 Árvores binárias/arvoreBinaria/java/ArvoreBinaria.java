@@ -169,7 +169,7 @@ public class ArvoreBinaria {
 	 */
 	private void inserirPai(int x, No i, No pai) throws Exception {
 		if (i == null) {
-         if(x < i.elemento){
+         if(x < pai.elemento){
             pai.esq = new No(x);
          } else {
             pai.dir = new No(x);
@@ -407,3 +407,4 @@ public class ArvoreBinaria {
       return resp;
    }
 }
+
