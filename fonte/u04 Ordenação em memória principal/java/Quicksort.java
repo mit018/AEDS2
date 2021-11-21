@@ -49,5 +49,6 @@ class Quicksort extends Geracao {
         }
         if (esq < j)  quicksort(esq, j);
         if (i < dir)  quicksort(i, dir);
+        
     }
 }

@@ -1,0 +1,393 @@
+class Series {
+
+  private String nome;
+  private String formato;
+  private String duracao;
+  private String pais;
+  private String idioma;
+  private String emissora;
+  private String transmissao;
+  private int temporadas;
+  private int episodios;
+
+  public void imprimir() {
+    MyIO.println(
+      this.nome +
+      " " +
+      this.formato +
+      " " +
+      this.duracao +
+      " " +
+      this.pais +
+      " " +
+      this.idioma +
+      " " +
+      this.emissora +
+      " " +
+      this.transmissao +
+      " " +
+      this.temporadas +
+      " " +
+      this.episodios
+    );
+  }
+
+  public void setSerie(int padrao, String conteudo) {
+    switch (padrao) {
+      case 0:
+        this.setNome(conteudo);
+        break;
+      case 1:
+        this.setFormato(conteudo);
+        break;
+      case 2:
+        this.setDuracao(conteudo);
+        break;
+      case 3:
+        this.setPais(conteudo);
+        break;
+      case 4:
+        this.setIdioma(conteudo);
+        break;
+      case 5:
+        this.setEmissora(conteudo);
+        break;
+      case 6:
+        this.setTransmissao(conteudo);
+        break;
+      case 7:
+        this.setTemporadas(conteudo);
+        break;
+      case 8:
+        this.setEpisodios(conteudo);
+        break;
+      default:
+        break;
+    }
+  }
+
+  public void ler(String arq) {
+    String linha = "", conteudo = "";
+    int pad = 0;
+    String[] padrao = setPadroes();
+
+    Arq.openRead("/tmp/series/" + arq, "UTF-8");
+
+    linha = Arq.readLine();
+
+    while (this.getEpisodios() == 0) {
+      if (linha.contains(padrao[pad])) {
+        if (pad != 0) {
+          conteudo =
+            Arq
+              .readLine()
+              .replaceAll("\\<.*?\\>", "")
+              .replaceAll("&#160;", "")
+              .replaceAll("&nbsp;", "")
+              .trim(); // &#160;
+        } else {
+          conteudo =
+            linha
+              .replaceAll("\\<.*?\\>", "")
+              .replaceAll("\\(.*?\\)", "")
+              .replaceAll(" – Wikipédia, a enciclopédia livre", "")
+              .trim();
+        }
+        setSerie(pad, conteudo);
+        pad++;
+      }
+      linha = Arq.readLine();
+    }
+
+    Arq.close();
+  }
+
+  public Series() {
+    this.setNome("0");
+    this.setFormato("0");
+    this.setDuracao("0");
+    this.setPais("0");
+    this.setIdioma("0");
+    this.setEmissora("0");
+    this.setTransmissao("0");
+    this.setTemporadas("0");
+    this.setEpisodios("0");
+  }
+
+  public Series(
+    String nome,
+    String formato,
+    String duracao,
+    String pais,
+    String idioma,
+    String emissora,
+    String transmissao,
+    int temporadas,
+    int episodios
+  ) {
+    this.setNome(nome);
+    this.setFormato(formato);
+    this.setDuracao(duracao);
+    this.setPais(pais);
+    this.setIdioma(idioma);
+    this.setEmissora(emissora);
+    this.setTransmissao(transmissao);
+    this.temporadas = temporadas;
+    this.episodios = episodios;
+  }
+
+  public Series clone() {
+    Series clone = new Series(
+      this.nome,
+      this.formato,
+      this.duracao,
+      this.pais,
+      this.idioma,
+      this.emissora,
+      this.transmissao,
+      this.temporadas,
+      this.episodios
+    );
+
+    return clone;
+  }
+
+  public static String[] setPadroes() {
+    String[] padroes = new String[9];
+
+    padroes[0] = "<title>";
+    padroes[1] = "Formato"; // proxima linha
+    padroes[2] = "Duração"; // proxima linha
+    padroes[3] = "País de origem"; // proxima linha
+    padroes[4] = "Idioma original"; // proxima linha
+    padroes[5] = "Emissora de televisão original"; // proxima linha
+    padroes[6] = "Transmissão original"; // proxima linha
+    padroes[7] = "N.º de temporadas"; // proxima linha
+    padroes[8] = "N.º de episódios"; // proxima linha
+
+    return padroes;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  public void setFormato(String formato) {
+    this.formato = formato;
+  }
+
+  public void setDuracao(String duracao) {
+    this.duracao = duracao;
+  }
+
+  public void setPais(String pais) {
+    this.pais = pais;
+  }
+
+  public void setIdioma(String idioma) {
+    this.idioma = idioma;
+  }
+
+  public void setEmissora(String emissora) {
+    this.emissora = emissora;
+  }
+
+  public void setTransmissao(String transmissao) {
+    this.transmissao = transmissao;
+  }
+
+  public void setTemporadas(String temporadas) {
+    if (temporadas.indexOf(" ") > 0) {
+      temporadas = temporadas.substring(0, temporadas.indexOf(" ")).trim();
+    }
+    this.temporadas = Integer.parseInt(temporadas);
+  }
+
+  public void setEpisodios(String episodios) {
+    if (episodios.indexOf(" ") > 0) {
+      episodios = episodios.substring(0, episodios.indexOf(" ")).trim();
+    }
+    this.episodios = Integer.parseInt(episodios);
+  }
+
+  public String getNome() {
+    return this.nome;
+  }
+
+  public String getFormato() {
+    return this.formato;
+  }
+
+  public String getDuracao() {
+    return this.duracao;
+  }
+
+  public String getPais() {
+    return this.pais;
+  }
+
+  public String getIdioma() {
+    return this.idioma;
+  }
+
+  public String getEmissora() {
+    return this.emissora;
+  }
+
+  public String getTransmissao() {
+    return this.transmissao;
+  }
+
+  public int getTemporadas() {
+    return this.temporadas;
+  }
+
+  public int getEpisodios() {
+    return this.episodios;
+  }
+}
+
+class Celula {
+
+  public Series serie; // Elemento inserido na celula.
+  public Celula prox; // Aponta a celula prox.
+
+  /**
+   * Construtor da classe.
+   */
+  public Celula() {
+    this(null);
+  }
+
+  public Celula(Series serie) {
+    this.serie = serie;
+    this.prox = null;
+  }
+}
+
+/**
+ * Pilha dinamica
+ *
+ * @author Max do Val Machado
+ * @version 2 01/2015
+ */
+class Pilha {
+
+  private Celula topo;
+
+  /**
+   * Construtor da classe que cria uma fila sem elementos.
+   */
+  public Pilha() {
+    topo = null;
+  }
+
+  /**
+   * Insere elemento na pilha (politica FILO).
+   *
+   * @param x int elemento a inserir.
+   */
+  public void inserir(Series s) {
+    Celula tmp = new Celula(s);
+    tmp.prox = topo;
+    topo = tmp;
+    tmp = null;
+  }
+
+  /**
+   * Remove elemento da pilha (politica FILO).
+   *
+   * @return Elemento removido.
+   * @trhows Exception Se a sequencia nao contiver elementos.
+   */
+  public Series remover() throws Exception {
+    if (topo == null) {
+      throw new Exception("Erro ao remover!");
+    }
+    Series resp = topo.serie;
+    Celula tmp = topo;
+    topo = topo.prox;
+    tmp.prox = null;
+    tmp = null;
+    return resp;
+  }
+
+  public void Imprimir() {
+    Imprimir(topo);
+  }
+
+  private void Imprimir(Celula i) {
+    if (i != null) {
+      i.serie.imprimir();
+      Imprimir(i.prox);
+      
+    }
+  }
+}
+
+public class TP02Q12 {
+
+  /**
+   * compara a string com "FIM"
+   * @param s -> linha lida
+   * @return -> retorna se eh igual a "FIM"
+   */
+  public static boolean isFim(String s) {
+    return (
+      s.length() == 3 &&
+      s.charAt(0) == 'F' &&
+      s.charAt(1) == 'I' &&
+      s.charAt(2) == 'M'
+    );
+  }
+
+  public static void processa(String linha, Pilha Pilha) {
+    String[] split = new String[2];
+    split = linha.split(" ");
+    Series serie = new Series();
+    switch (linha.charAt(0)) {
+      case 'I':
+        serie.ler(split[1]);
+        try {
+          Pilha.inserir(serie);
+        } catch (Exception e) {}
+        break;
+      case 'R':
+        try {
+          serie = Pilha.remover();
+        } catch (Exception e) {}
+        MyIO.println("(R) " + serie.getNome());
+        break;
+      default:
+        break;
+    }
+  }
+
+  public static void main(String[] args) {
+    MyIO.setCharset("UTF-8");
+
+    String arq = MyIO.readLine(), linha = "";
+
+    Pilha pilhaSeries = new Pilha();
+
+    while (!isFim(arq)) {
+      Series serie = new Series();
+      serie.ler(arq);
+      try {
+        pilhaSeries.inserir(serie);
+      } catch (Exception e) {
+        //
+      }
+      arq = MyIO.readLine();
+    }
+
+    int i = MyIO.readInt();
+
+    for (int j = 0; j < i; j++) {
+      linha = MyIO.readLine();
+      processa(linha, pilhaSeries);
+    }
+
+    pilhaSeries.Imprimir();
+  }
+}

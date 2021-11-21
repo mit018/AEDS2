@@ -42,7 +42,7 @@ class ListaDupla {
 	 */
 	public void inserirFim(int x) {
 		ultimo.prox = new CelulaDupla(x);
-      ultimo.prox.ant = ultimo;
+      	ultimo.prox.ant = ultimo;
 		ultimo = ultimo.prox;
 	}
 
@@ -74,7 +74,7 @@ class ListaDupla {
 	public int removerFim() throws Exception {
 		if (primeiro == ultimo) {
 			throw new Exception("Erro ao remover (vazia)!");
-		} 
+		}
       int resp = ultimo.elemento;
       ultimo = ultimo.ant;
       ultimo.prox.ant = null;
@@ -84,7 +84,7 @@ class ListaDupla {
 
 
 	/**
-    * Insere um elemento em uma posicao especifica considerando que o 
+    * Insere um elemento em uma posicao especifica considerando que o
     * primeiro elemento valido esta na posicao 0.
     * @param x int elemento a ser inserido.
 	 * @param pos int posicao da insercao.
@@ -104,7 +104,7 @@ class ListaDupla {
 		   // Caminhar ate a posicao anterior a insercao
          CelulaDupla i = primeiro;
          for(int j = 0; j < pos; j++, i = i.prox);
-		
+
          CelulaDupla tmp = new CelulaDupla(x);
          tmp.ant = i;
          tmp.prox = i.prox;
@@ -138,7 +138,7 @@ class ListaDupla {
 		   // Caminhar ate a posicao anterior a insercao
          CelulaDupla i = primeiro.prox;
          for(int j = 0; j < pos; j++, i = i.prox);
-		
+
          i.ant.prox = i.prox;
          i.prox.ant = i.ant;
          resp = i.elemento;
@@ -163,7 +163,7 @@ class ListaDupla {
 
 
 	/**
-	 * Mostra os elementos da lista de forma invertida 
+	 * Mostra os elementos da lista de forma invertida
     * e separados por espacos.
 	 */
 	public void mostrarInverso() {
@@ -197,7 +197,7 @@ class ListaDupla {
 	 * @return resp int tamanho
 	 */
    public int tamanho() {
-      int tamanho = 0; 
+      int tamanho = 0;
       for(CelulaDupla i = primeiro; i != ultimo; i = i.prox, tamanho++);
       return tamanho;
    }

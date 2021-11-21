@@ -1,5 +1,9 @@
 {
     "java.project.sourcePaths": [
         "Prova/Questão01"
-    ]
+    ],
+    "files.associations": {
+        "array": "c",
+        "err.h": "c"
+    }
 }
