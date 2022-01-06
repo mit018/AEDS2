@@ -1,7 +1,8 @@
 import java.util.Date;
 import java.util.Locale;
 
-class Comparacoes{
+class Comparacoes {
+
   public static int cont;
 }
 
@@ -93,7 +94,7 @@ class Series {
     linha = Arq.readLine();
 
     while (this.getEpisodios() == 0) {
-    Comparacoes.cont++;
+      Comparacoes.cont++;
       if (linha.contains(padrao[pad])) {
         if (pad != 0) {
           conteudo =
@@ -311,7 +312,6 @@ class Lista {
     if (n >= series.length) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
     series[n] = s.clone();
     n++;
   }
@@ -320,12 +320,9 @@ class Lista {
     if (n >= series.length) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
     for (int i = n; i > 0; i--) {
-      Comparacoes.cont++;
       series[i] = series[i - 1];
     }
-    Comparacoes.cont++;
     series[0] = s.clone();
     n++;
   }
@@ -334,13 +331,10 @@ class Lista {
     if (n >= series.length || pos < 0 || pos > n) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
 
     for (int i = n; i > pos; i--) {
-      Comparacoes.cont++;
       series[i] = series[i - 1];
     }
-    Comparacoes.cont++;
     series[pos] = s.clone();
     n++;
   }
@@ -349,16 +343,32 @@ class Lista {
     if (n == 0 || pos < 0 || pos > n) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
 
     Series serie = series[pos];
     n--;
 
     for (int i = pos; i < n; i++) {
-      Comparacoes.cont++;
       series[i] = series[i + 1];
     }
-    Comparacoes.cont++;
+    return serie;
+  }
+
+  Series remover(Series s) throws Exception {
+    if (n == 0) {
+      throw new Exception("ERRO");
+    }
+
+    Series serie = new Series();
+    n--;
+
+    for (int i = 0; i < this.n; i++) {
+      if (series[i].getNome().equals(s.getNome())) {
+        serie = series[i];
+        remover(i);
+        i = this.n;
+      }
+      Comparacoes.cont++;
+    }
     return serie;
   }
 
@@ -366,14 +376,11 @@ class Lista {
     if (n == 0) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
     Series primeira = series[0];
     n--;
     for (int i = 0; i < n; i++) {
       series[i] = series[i + 1];
-      Comparacoes.cont++;
     }
-    Comparacoes.cont++;
     return primeira;
   }
 
@@ -381,18 +388,16 @@ class Lista {
     if (n == 0) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
     return series[--n];
   }
+
   /**FIM METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
 
   /**Imprime a lista */
   void Imprimir() {
     for (int i = 0; i < n; i++) {
-      Comparacoes.cont++;
       series[i].imprimir();
     }
-    Comparacoes.cont++;
   }
 
   /**
@@ -400,12 +405,11 @@ class Lista {
    * @param linha nome da serie pesquisada
    * @return resposta (sim ou nao) para a pesquisa
    */
-  String pesquisa(String linha) {
-    String resp = "NÃO";
+  boolean pesquisar(String linha) {
+    boolean resp = false;
     for (int i = 0; i < this.n; i++) {
-      Comparacoes.cont++;
       if (series[i].getNome().equals(linha)) {
-        resp = "SIM";
+        resp = true;
         i = this.n;
       }
       Comparacoes.cont++;
@@ -415,7 +419,82 @@ class Lista {
   }
 }
 
-public class TP02Q03 {
+class tabelaHash {
+
+  Lista series[];
+  int tamanho;
+  private int n;
+
+  /**
+   * Inicializa a lista com um tamanho especifico
+   * @param tamanho tamanho do vetor de series
+   */
+  public tabelaHash(int tamanho) {
+    this.tamanho = tamanho;
+    series = new Lista[tamanho];
+    for (int i = 0; i < tamanho; i++) {
+      series[i] = new Lista();
+    }
+    n = 0;
+  }
+
+  /**Inicializa a lista com tamanho 100 */
+  public tabelaHash() {
+    this(21);
+  }
+
+  public int hash(String elemento) {
+    int num = 0;
+    for (int i = 0; i < elemento.length(); i++) {
+      num += elemento.charAt(i);
+    }
+    return num % tamanho;
+  }
+
+  /**
+   * Retorna o tamanho total da lista
+   * @return
+   */
+  public int getTamanho() {
+    return series.length;
+  }
+
+  public void inserirInicio(Series elemento) {
+    int pos = hash(elemento.getNome());
+    try {
+      series[pos].inserirInicio(elemento);
+    } catch (Exception e) {}
+  }
+
+  public Series remover(Series elemento) throws Exception{
+    Series resp = null;
+    if (pesquisar(elemento.getNome()) == false) {
+      throw new Exception("Erro ao remover!");
+    } else {
+      int pos = hash(elemento.getNome());
+      resp = series[pos].remover(elemento);
+    }
+    return resp;
+  }
+
+  /**FIM METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
+
+  /**Imprime a lista */
+  public void Imprimir() {
+    for (int i = 0; i < n; i++) {
+      if (series[i] != null) {
+        series[i].Imprimir();
+      }
+    }
+  }
+
+  public boolean pesquisar(String elemento) {
+    int pos = hash(elemento);
+    return series[pos].pesquisar(elemento);
+  }
+}
+
+public class TP04Q08 {
 
   /**
    * compara a string com "FIM"
@@ -423,7 +502,6 @@ public class TP02Q03 {
    * @return -> retorna se eh igual a "FIM"
    */
   public static boolean isFim(String s) {
-    Comparacoes.cont++;
     return (
       s.length() == 3 &&
       s.charAt(0) == 'F' &&
@@ -439,37 +517,34 @@ public class TP02Q03 {
 
     MyIO.setCharset("UTF-8");
 
-    String arq = MyIO.readLine();
+    String arq = MyIO.readLine(), resp = "";
 
-    Lista listaSeries = new Lista();
+    tabelaHash hashSeries = new tabelaHash();
 
     while (!isFim(arq)) {
-      Comparacoes.cont++;
       Series serie = new Series();
       serie.ler(arq);
 
       try {
-        listaSeries.inserirFim(serie);
+        hashSeries.inserirInicio(serie);
       } catch (Exception e) {
         //
       }
       arq = MyIO.readLine();
     }
-    Comparacoes.cont++;
+
     arq = MyIO.readLine();
 
     while (!isFim(arq)) {
-      Comparacoes.cont++;
-      arq = arq.trim();
+      resp = hashSeries.pesquisar(arq) ? " SIM" : " NAO";
+      MyIO.println(resp);
 
-      MyIO.println(listaSeries.pesquisa(arq));
       arq = MyIO.readLine();
     }
-    Comparacoes.cont++;
-    Arq.openWrite("734661_sequencial.txt");
-    tempo = ((new Date().getTime()) - tempo)/1000;
-    Arq.println("734661" + String.format("\t%.4f", tempo) + "\t" + Comparacoes.cont);
-    Arq.close();
 
+    Arq.openWrite("734661_hashIndireta.txt");
+    tempo = ((new Date().getTime()) - tempo) / 1000;
+    Arq.println("734661" + String.format("\t%.4f\t", tempo) + Comparacoes.cont);
+    Arq.close();
   }
 }

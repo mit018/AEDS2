@@ -4,6 +4,7 @@
  * @version 3 08/2020
  */
 
+import java.security.cert.PKIXCertPathValidatorResult;
 import java.util.*;
 
 class Geracao {
@@ -39,6 +40,18 @@ class Geracao {
 		}
 	}
 
+
+   public void lerArray(){
+      String linha = MyIO.readLine();
+      int num, i = 0;
+
+      while(linha.compareTo("FIM") != 0){
+         num = MyIO.readInt();
+         array[i] = num;
+         i++;
+         linha = MyIO.readLine();
+      }
+   }
 
 	/**
 	 * Produz um array ordenado de modo decrescente.

@@ -8,7 +8,7 @@ class Principal {
 
       //Delcaracao de variaveis
       Geracao algoritmo;
-      int n = (args.length < 1) ? 1000 : Integer.parseInt(args[0]);
+      int n = MyIO.readInt();
       double inicio, fim;
 
 
@@ -16,21 +16,21 @@ class Principal {
       //algoritmo = new Bolha(n);
       //algoritmo = new Countingsort(n);
       //algoritmo = new Heapsort(n);
-      //algoritmo = new Insercao(n);
+      algoritmo = new Insercao(n);
       //algoritmo = new Mergesort(n);
       //algoritmo = new Quicksort(n);
-      algoritmo = new Selecao(n);
+      // algoritmo = new Selecao(n);
       //algoritmo = new Shellsort(n);
 
 
       //Geracao do conjunto a ser ordenado
-		algoritmo.aleatorio();
+		algoritmo.lerArray();
 		//algoritmo.crescente();
 		//algoritmo.decrescente();
 
 
       //Mostrar o conjunto a ser ordenado
-		//algoritmo.mostrar();
+		algoritmo.mostrar();
 		
 
       //Execucao do algoritmo de ordenacao
@@ -43,5 +43,8 @@ class Principal {
 		//algoritmo.mostrar();
 		System.out.println("Tempo para ordenar: " + (fim-inicio)/1000.0 + " s.");
 		System.out.println("isOrdenado: " + algoritmo.isOrdenado());
+
+		algoritmo.mostrar();
+
 	}
 }

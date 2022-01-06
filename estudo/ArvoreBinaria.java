@@ -508,6 +508,14 @@ public class ArvoreBinaria {
     }
   }
 
+  public int misterio(No no) {
+    return (no != null)? misterio(no.esq) + misterio(no.dir) + 1 : 0;
+  }
+
+  public int misterio() {
+    return misterio(raiz);
+  }
+
   /**
    * Metodo publico iterativo para remover elemento.
    * @param x Elemento a ser removido.

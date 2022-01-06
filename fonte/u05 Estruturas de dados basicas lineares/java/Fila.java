@@ -13,9 +13,10 @@ class Fila {
     * Construtor da classe.
     */
    public Fila () {
-      this(6);
+      this(100);
    }
 
+   
 
    /**
     * Construtor da classe.

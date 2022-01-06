@@ -495,7 +495,7 @@ public class TP02Q04 {
       arq = MyIO.readLine();
     }
     Comparacoes.cont++;
-    Arq.openWrite("matricula_binaria.txt");
+    Arq.openWrite("734661_binaria.txt");
     tempo = ((new Date().getTime()) - tempo) / 1000;
     Arq.println(
       "734661" + String.format("\t%.4f", tempo) + "\t" + Comparacoes.cont

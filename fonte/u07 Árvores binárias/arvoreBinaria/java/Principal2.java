@@ -8,21 +8,22 @@ public class Principal2 {
     public static void main(String[] args) throws Exception {
         ArvoreBinaria a = new ArvoreBinaria();
 
-        Random gerador = new Random();
-        gerador.setSeed(0);
-        for(int i = 1; i <= 100000; i++){
-            int valor;
-            do {
-                valor = Math.abs(gerador.nextInt());
-            } while (a.pesquisar(valor) == true);
+       a.inserir(15);
+       a.inserir(6);
+       a.inserir(18);
+       a.inserir(3);
+       a.inserir(7);
+       a.inserir(17);
+       a.inserir(20);
+       a.inserir(2);
+       a.inserir(4);
+       a.inserir(13);
+       a.inserir(9);
 
-            a.inserir(valor);
+       a.remover(7);
+       a.remover(15);
+       a.remover(18);
 
-            if(i % 1000 == 0){
-                double log2 = (Math.log(i) / Math.log(2));
-                log2 *= 1.39;
-                System.out.println("Número de nós = " + i + " --- log(i,2) = " + log2 + " --- h = " + a.getAltura());
-            }
-        }
+       a.caminharPos();
     }
 }

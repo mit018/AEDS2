@@ -1,7 +1,8 @@
 import java.util.Date;
 import java.util.Locale;
 
-class Comparacoes{
+class Comparacoes {
+
   public static int cont;
 }
 
@@ -93,7 +94,7 @@ class Series {
     linha = Arq.readLine();
 
     while (this.getEpisodios() == 0) {
-    Comparacoes.cont++;
+      Comparacoes.cont++;
       if (linha.contains(padrao[pad])) {
         if (pad != 0) {
           conteudo =
@@ -278,24 +279,39 @@ class Series {
   /**FIM SETTERS E GETTERS SERIE*/
 }
 
-class Lista {
+class tabelaHash {
 
   private Series[] series;
+  int m1, m2, m, reserva;
   private int n;
 
   /**
    * Inicializa a lista com um tamanho especifico
    * @param tamanho tamanho do vetor de series
    */
-  public Lista(int tamanho) {
-    series = new Series[tamanho];
+  public tabelaHash(int m1, int m2) {
+    this.m1 = m1;
+    this.m2 = m2;
+    this.m = m1 + m2;
+    series = new Series[m];
+    for (int i = 0; i < m1; i++) {
+      series[i] = null;
+    }
+    reserva = 0;
     n = 0;
   }
 
   /**Inicializa a lista com tamanho 100 */
-  public Lista() {
-    series = new Series[100];
-    n = 0;
+  public tabelaHash() {
+    this(21, 9);
+  }
+
+  public int hash(String elemento) {
+    int num = 0;
+    for (int i = 0; i < elemento.length(); i++) {
+      num += elemento.charAt(i);
+    }
+    return num % this.m1;
   }
 
   /**
@@ -306,116 +322,78 @@ class Lista {
     return series.length;
   }
 
-  /**INICIO METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
-  void inserirFim(Series s) throws Exception {
-    if (n >= series.length) {
+  public boolean inserir(Series elemento) throws Exception {
+    if (n >= this.m) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
-    series[n] = s.clone();
-    n++;
+    boolean resp = false;
+    if (elemento != null) {
+      int pos = hash(elemento.getNome());
+      if (series[pos] == null) {
+        Comparacoes.cont++;
+        series[pos] = elemento;
+        resp = true;
+        n++;
+      } else if (reserva < m2) {
+        series[m1 + reserva] = elemento;
+        reserva++;
+        resp = true;
+        n++;
+      }
+    }
+    return resp;
   }
 
-  void inserirInicio(Series s) throws Exception {
-    if (n >= series.length) {
+  Series remover(Series elemento) throws Exception {
+    if (n == 0) {
       throw new Exception("ERRO");
     }
-    Comparacoes.cont++;
-    for (int i = n; i > 0; i--) {
-      Comparacoes.cont++;
-      series[i] = series[i - 1];
-    }
-    Comparacoes.cont++;
-    series[0] = s.clone();
-    n++;
-  }
+    Series serie = series[0];
+    // n--;
 
-  void inserir(Series s, int pos) throws Exception {
-    if (n >= series.length || pos < 0 || pos > n) {
-      throw new Exception("ERRO");
-    }
-    Comparacoes.cont++;
-
-    for (int i = n; i > pos; i--) {
-      Comparacoes.cont++;
-      series[i] = series[i - 1];
-    }
-    Comparacoes.cont++;
-    series[pos] = s.clone();
-    n++;
-  }
-
-  Series remover(int pos) throws Exception {
-    if (n == 0 || pos < 0 || pos > n) {
-      throw new Exception("ERRO");
-    }
-    Comparacoes.cont++;
-
-    Series serie = series[pos];
-    n--;
-
-    for (int i = pos; i < n; i++) {
-      Comparacoes.cont++;
-      series[i] = series[i + 1];
-    }
-    Comparacoes.cont++;
+    // for (int i = pos; i < n; i++) {
+    //   series[i] = series[i + 1];
+    // }
     return serie;
   }
 
-  Series removerInicio() throws Exception {
-    if (n == 0) {
-      throw new Exception("ERRO");
-    }
-    Comparacoes.cont++;
-    Series primeira = series[0];
-    n--;
-    for (int i = 0; i < n; i++) {
-      series[i] = series[i + 1];
-      Comparacoes.cont++;
-    }
-    Comparacoes.cont++;
-    return primeira;
-  }
-
-  Series removerFim() throws Exception {
-    if (n == 0) {
-      throw new Exception("ERRO");
-    }
-    Comparacoes.cont++;
-    return series[--n];
-  }
   /**FIM METODOS DE INSERCAO E REMOCAO DE OBJETOS SERIE DA LISTA */
 
   /**Imprime a lista */
   void Imprimir() {
     for (int i = 0; i < n; i++) {
-      Comparacoes.cont++;
-      series[i].imprimir();
+      if (series[i] != null) {
+        series[i].imprimir();
+      }
     }
-    Comparacoes.cont++;
   }
 
   /**
    * Pesquisa sequencial de um nome de serie em toda a lista
    * @param linha nome da serie pesquisada
-   * @return resposta (sim ou nao) para a pesquisa
+   * @return resposta booleana para a pesquisa
    */
-  String pesquisa(String linha) {
-    String resp = "NÃO";
-    for (int i = 0; i < this.n; i++) {
+  public boolean pesquisar(String linha) {
+    boolean resp = false;
+    int pos = hash(linha);
+
+    if (series[pos].getNome().equals(linha)) {
       Comparacoes.cont++;
-      if (series[i].getNome().equals(linha)) {
-        resp = "SIM";
-        i = this.n;
+      resp = true;
+    } else if (series[pos] != null) {
+      for (int i = 0; i < reserva; i++) {
+        if (series[m1 + i].getNome().equals(linha)) {
+          Comparacoes.cont++;
+          resp = true;
+          i = reserva;
+        }
       }
-      Comparacoes.cont++;
     }
-    Comparacoes.cont++;
     return resp;
   }
 }
 
-public class TP02Q03 {
+public class TP04Q06 {
 
   /**
    * compara a string com "FIM"
@@ -423,7 +401,6 @@ public class TP02Q03 {
    * @return -> retorna se eh igual a "FIM"
    */
   public static boolean isFim(String s) {
-    Comparacoes.cont++;
     return (
       s.length() == 3 &&
       s.charAt(0) == 'F' &&
@@ -439,37 +416,39 @@ public class TP02Q03 {
 
     MyIO.setCharset("UTF-8");
 
-    String arq = MyIO.readLine();
+    String arq = MyIO.readLine(), resp = "";
 
-    Lista listaSeries = new Lista();
+    tabelaHash hashSeries = new tabelaHash();
 
     while (!isFim(arq)) {
-      Comparacoes.cont++;
       Series serie = new Series();
       serie.ler(arq);
 
       try {
-        listaSeries.inserirFim(serie);
+        hashSeries.inserir(serie);
       } catch (Exception e) {
         //
       }
       arq = MyIO.readLine();
     }
-    Comparacoes.cont++;
+
     arq = MyIO.readLine();
-
+    
     while (!isFim(arq)) {
-      Comparacoes.cont++;
-      arq = arq.trim();
+      if (hashSeries.pesquisar(arq) == true) {
+        MyIO.println(" SIM");
+      } else {
+        MyIO.println(" NAO");
+      }
 
-      MyIO.println(listaSeries.pesquisa(arq));
+      // resp = hashSeries.pesquisar(arq) ? "SIM" : "NAO";
+      // MyIO.println(resp);
       arq = MyIO.readLine();
     }
-    Comparacoes.cont++;
-    Arq.openWrite("734661_sequencial.txt");
-    tempo = ((new Date().getTime()) - tempo)/1000;
-    Arq.println("734661" + String.format("\t%.4f", tempo) + "\t" + Comparacoes.cont);
-    Arq.close();
 
+    Arq.openWrite("734661_hashReserva.txt");
+    tempo = ((new Date().getTime()) - tempo) / 1000;
+    Arq.println("734661" + String.format("\t%.4f\t", tempo) + Comparacoes.cont);
+    Arq.close();
   }
 }
